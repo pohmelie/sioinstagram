@@ -1,5 +1,5 @@
 # Sans io implementation of instagram api
-* Based on [php instagram api](https://github.com/mgp25/Instagram-API).
+* Based on [php instagram api](https://github.com/mgp25/Instagram-API) and [python instagram api](https://github.com/LevPasha/Instagram-API-python).
 * Have no
 response wrappers, no upload picture/video/avatar.
 * Have no api-methods documentation,
