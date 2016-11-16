@@ -17,7 +17,7 @@ class AioHTTPInstagramApi:
 
         if proxy:
 
-            conn = ProxyConnector(proxy=proxy)
+            conn = aiohttp.ProxyConnector(proxy=proxy)
 
         else:
 
