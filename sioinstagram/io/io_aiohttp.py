@@ -13,7 +13,7 @@ __all__ = (
 
 class AioHTTPInstagramApi:
 
-    def __init__(self, state=None, delay=1, proxy=None, loop=None, lock=None):
+    def __init__(self, state=None, delay=5, proxy=None, loop=None, lock=None):
 
         if proxy:
 

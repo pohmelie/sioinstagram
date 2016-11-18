@@ -14,7 +14,7 @@ __all__ = (
 
 class RequestsInstagramApi:
 
-    def __init__(self, state=None, delay=1, proxy=None, lock=None):
+    def __init__(self, state=None, delay=5, proxy=None, lock=None):
 
         self.session = requests.Session()
         if proxy is not None:
