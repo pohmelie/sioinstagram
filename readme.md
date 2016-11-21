@@ -23,7 +23,7 @@ import sioinstagram
 
 
 USERNAME = "username"
-PASSWORD = "passwrod"
+PASSWORD = "password"
 
 
 def requests_example():
