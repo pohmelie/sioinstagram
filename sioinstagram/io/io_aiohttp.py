@@ -4,6 +4,7 @@ import functools
 import aiohttp
 
 from ..protocol import *
+from ..exceptions import *
 
 
 __all__ = (
@@ -77,6 +78,10 @@ class AioHTTPInstagramApi:
 
                 self.last_request_time = self.loop.time()
                 async with self.session.request(**request._asdict()) as resp:
+
+                    if resp.status != 200:
+
+                        raise InstagramStatusCodeError(resp.status)
 
                     response = Response(
                         cookies=resp.cookies,

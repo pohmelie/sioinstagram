@@ -4,6 +4,7 @@ import functools
 import aiorequests
 
 from ..protocol import *
+from ..exceptions import *
 
 
 __all__ = (
@@ -60,6 +61,9 @@ class AioRequestsInstagramApi:
 
                 self.last_request_time = self.loop.time()
                 response = await self.session.request(**request._asdict())
+                if response.status_code != aiorequests.codes.ok:
+
+                    raise InstagramStatusCodeError(response.status_code)
 
                 response = Response(
                     cookies=response.cookies,

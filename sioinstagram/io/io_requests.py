@@ -5,6 +5,7 @@ import threading
 import requests
 
 from ..protocol import *
+from ..exceptions import *
 
 
 __all__ = (
@@ -60,6 +61,9 @@ class RequestsInstagramApi:
 
                 self.last_request_time = time.perf_counter()
                 response = self.session.request(**request._asdict())
+                if response.status_code != requests.codes.ok:
+
+                    raise InstagramStatusCodeError(response.status_code)
 
                 response = Response(
                     cookies=response.cookies,
