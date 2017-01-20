@@ -63,7 +63,7 @@ class Protocol:
 
     def __init__(self, state=None):
 
-        self.state = state or {}
+        self.state = {} if state is None else state
         if "uuid" not in self.state:
 
             self.state["uuid"] = str(uuid.uuid4())
