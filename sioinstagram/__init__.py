@@ -3,7 +3,7 @@ from .exceptions import *
 from .io import *
 
 
-__version__ = "0.0.2"
+__version__ = "0.0.3"
 version = tuple(map(int, str.split(__version__, ".")))
 
 
