@@ -3,8 +3,8 @@ import functools
 
 import aiohttp
 
-from ..protocol import *
-from ..exceptions import *
+from ..protocol import Protocol, Response
+from ..exceptions import InstagramStatusCodeError
 
 
 __all__ = (
@@ -24,9 +24,12 @@ class AioHTTPInstagramApi:
 
             conn = None
 
-        self.session = aiohttp.ClientSession(loop=loop, connector=conn)
-
         self.proto = Protocol(state)
+        self.session = aiohttp.ClientSession(
+            loop=loop,
+            connector=conn,
+            cookies=self.proto.cookies,
+        )
         self.delay = delay
         self.loop = loop or asyncio.get_event_loop()
         self.lock = lock or asyncio.Lock(loop=self.loop)
@@ -83,8 +86,13 @@ class AioHTTPInstagramApi:
 
                         raise InstagramStatusCodeError(resp.status)
 
+                    cookies = {}
+                    for cookie in self.session.cookie_jar:
+
+                        cookies[cookie.key] = cookie.value
+
                     response = Response(
-                        cookies=resp.cookies,
+                        cookies=cookies,
                         json=(await resp.json()),
                     )
 

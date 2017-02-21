@@ -4,8 +4,8 @@ import threading
 
 import requests
 
-from ..protocol import *
-from ..exceptions import *
+from ..protocol import Protocol, Response
+from ..exceptions import InstagramStatusCodeError
 
 
 __all__ = (
@@ -23,9 +23,15 @@ class RequestsInstagramApi:
             self.session.proxies = dict(http=proxy, https=proxy)
 
         self.proto = Protocol(state)
+        cookies = requests.cookies.cookiejar_from_dict(self.proto.cookies)
+        self.session.cookies = cookies
         self.delay = delay
         self.lock = lock or threading.Lock()
         self.last_request_time = 0
+
+    def close(self):
+
+        self.session.close()
 
     @property
     def state(self):
@@ -55,18 +61,18 @@ class RequestsInstagramApi:
 
                     break
 
-                now = time.perf_counter()
+                now = time.monotonic()
                 timeout = max(0, self.delay - (now - self.last_request_time))
                 time.sleep(timeout)
 
-                self.last_request_time = time.perf_counter()
+                self.last_request_time = time.monotonic()
                 response = self.session.request(**request._asdict())
                 if response.status_code != requests.codes.ok:
 
                     raise InstagramStatusCodeError(response.status_code)
 
                 response = Response(
-                    cookies=response.cookies,
+                    cookies=self.session.cookies.get_dict(),
                     json=response.json(),
                 )
 

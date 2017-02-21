@@ -3,8 +3,8 @@ import functools
 
 import aiorequests
 
-from ..protocol import *
-from ..exceptions import *
+from ..protocol import Protocol, Response
+from ..exceptions import InstagramStatusCodeError
 
 
 __all__ = (
@@ -22,10 +22,16 @@ class AioRequestsInstagramApi:
             self.session.proxies = dict(http=proxy, https=proxy)
 
         self.proto = Protocol(state)
+        cookies = aiorequests.cookies.cookiejar_from_dict(self.proto.cookies)
+        self.session.cookies = cookies
         self.delay = delay
         self.loop = loop or asyncio.get_event_loop()
         self.lock = lock or asyncio.Lock(loop=self.loop)
         self.last_request_time = 0
+
+    def close(self):
+
+        self.session.close()
 
     @property
     def state(self):
@@ -66,7 +72,7 @@ class AioRequestsInstagramApi:
                     raise InstagramStatusCodeError(response.status_code)
 
                 response = Response(
-                    cookies=response.cookies,
+                    cookies=self.session.cookies.get_dict(),
                     json=response.json(),
                 )
 

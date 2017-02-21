@@ -61,6 +61,8 @@ def generate_signature(**data):
 
 class Protocol:
 
+    _COOKIES = ("csrftoken", "sessionid")
+
     def __init__(self, state=None):
 
         self.state = {} if state is None else state
@@ -74,6 +76,11 @@ class Protocol:
         a = (self.state["username"] + self.state["password"]).encode("utf-8")
         b = (hashlib.md5(a).hexdigest() + "yoba").encode("utf-8")
         return "android-" + hashlib.md5(b).hexdigest()[:16]
+
+    @property
+    def cookies(self):
+
+        return self.state.get("cookies", {})
 
     def login(self, username, password):
 
@@ -113,7 +120,13 @@ class Protocol:
         )
 
         self.state["username_id"] = response.json["logged_in_user"]["pk"]
-        self.state["token"] = response.cookies["csrftoken"]
+        cookies = self.state["cookies"] = {}
+        for name in self._COOKIES:
+
+            if name in response.cookies:
+
+                cookies[name] = response.cookies[name]
+
         self.state["rank_token"] = str.format(
             "{}_{}",
             self.state["username_id"],
@@ -154,7 +167,7 @@ class Protocol:
 
             params["max_id"] = max_id
 
-        response = yield Request(
+        yield Request(
             method="get",
             url="feed/timeline/",
             params=params
