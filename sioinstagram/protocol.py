@@ -142,7 +142,7 @@ class Protocol:
             data=generate_signature(
                 _uuid=self.state["uuid"],
                 _uid=self.state["username_id"],
-                _csrftoken=self.state["token"],
+                _csrftoken=self.state["cookies"]["csrftoken"],
                 id=self.state["username_id"],
                 experiments=constants.EXPERIMENTS,
             ),
@@ -186,7 +186,7 @@ class Protocol:
                 reason="",
                 _uuid=self.state["uuid"],
                 device_id=self.device_id,
-                _csrftoken=self.state["token"],
+                _csrftoken=self.state["cookies"]["csrftoken"],
                 uuid=hashlib.md5(uuid).hexdigest(),
             )),
         )
@@ -244,7 +244,7 @@ class Protocol:
                 _uuid=self.state["uuid"],
                 _uid=self.state["username_id"],
                 id=self.state["username_id"],
-                _csrftoken=self.state["token"],
+                _csrftoken=self.state["cookies"]["csrftoken"],
                 experiment="ig_android_profile_contextual_feed"
             ),
         )
@@ -281,7 +281,7 @@ class Protocol:
             data=generate_signature(
                 _uuid=self.state["uuid"],
                 _uid=self.state["username_id"],
-                _csrftoken=self.state["token"],
+                _csrftoken=self.state["cookies"]["csrftoken"],
             ),
         )
         yield None
@@ -297,7 +297,7 @@ class Protocol:
             data=generate_signature(
                 _uuid=self.state["uuid"],
                 _uid=self.state["username_id"],
-                _csrftoken=self.state["token"],
+                _csrftoken=self.state["cookies"]["csrftoken"],
             ),
         )
         yield None
@@ -313,7 +313,7 @@ class Protocol:
             data=generate_signature(
                 _uuid=self.state["uuid"],
                 _uid=self.state["username_id"],
-                _csrftoken=self.state["token"],
+                _csrftoken=self.state["cookies"]["csrftoken"],
                 caption_text=caption,
             ),
         )
@@ -330,7 +330,7 @@ class Protocol:
             data=generate_signature(
                 _uuid=self.state["uuid"],
                 _uid=self.state["username_id"],
-                _csrftoken=self.state["token"],
+                _csrftoken=self.state["cookies"]["csrftoken"],
                 media_id=media_id,
             ),
         )
@@ -347,7 +347,7 @@ class Protocol:
             data=generate_signature(
                 _uuid=self.state["uuid"],
                 _uid=self.state["username_id"],
-                _csrftoken=self.state["token"],
+                _csrftoken=self.state["cookies"]["csrftoken"],
                 media_id=media_id,
             ),
         )
@@ -364,7 +364,7 @@ class Protocol:
             data=generate_signature(
                 _uuid=self.state["uuid"],
                 _uid=self.state["username_id"],
-                _csrftoken=self.state["token"],
+                _csrftoken=self.state["cookies"]["csrftoken"],
                 comment_text=comment_text,
             ),
         )
@@ -382,7 +382,7 @@ class Protocol:
             data=generate_signature(
                 _uuid=self.state["uuid"],
                 _uid=self.state["username_id"],
-                _csrftoken=self.state["token"],
+                _csrftoken=self.state["cookies"]["csrftoken"],
             ),
         )
         yield None
@@ -398,7 +398,7 @@ class Protocol:
             data=generate_signature(
                 _uuid=self.state["uuid"],
                 _uid=self.state["username_id"],
-                _csrftoken=self.state["token"],
+                _csrftoken=self.state["cookies"]["csrftoken"],
                 comment_ids_to_delete=str.join(",", map(str, comment_ids)),
             ),
         )
@@ -412,7 +412,7 @@ class Protocol:
             data=generate_signature(
                 _uuid=self.state["uuid"],
                 _uid=self.state["username_id"],
-                _csrftoken=self.state["token"],
+                _csrftoken=self.state["cookies"]["csrftoken"],
             ),
         )
         yield None
@@ -425,7 +425,7 @@ class Protocol:
             data=generate_signature(
                 _uuid=self.state["uuid"],
                 _uid=self.state["username_id"],
-                _csrftoken=self.state["token"],
+                _csrftoken=self.state["cookies"]["csrftoken"],
             ),
         )
         yield None
@@ -438,7 +438,7 @@ class Protocol:
             data=generate_signature(
                 _uuid=self.state["uuid"],
                 _uid=self.state["username_id"],
-                _csrftoken=self.state["token"],
+                _csrftoken=self.state["cookies"]["csrftoken"],
             ),
         )
         yield None
@@ -451,7 +451,7 @@ class Protocol:
             data=generate_signature(
                 _uuid=self.state["uuid"],
                 _uid=self.state["username_id"],
-                _csrftoken=self.state["token"],
+                _csrftoken=self.state["cookies"]["csrftoken"],
             ),
         )
         yield None
@@ -464,7 +464,7 @@ class Protocol:
             data=generate_signature(
                 _uuid=self.state["uuid"],
                 _uid=self.state["username_id"],
-                _csrftoken=self.state["token"],
+                _csrftoken=self.state["cookies"]["csrftoken"],
                 url=url,
                 phone_number=phone,
                 username=self.state["username"],
@@ -484,7 +484,7 @@ class Protocol:
             data=generate_signature(
                 _uuid=self.state["uuid"],
                 _uid=self.state["username_id"],
-                _csrftoken=self.state["token"],
+                _csrftoken=self.state["cookies"]["csrftoken"],
                 old_password=old,
                 new_password1=new,
                 new_password2=new,
@@ -784,7 +784,7 @@ class Protocol:
             data=generate_signature(
                 _uuid=self.state["uuid"],
                 _uid=self.state["username_id"],
-                _csrftoken=self.state["token"],
+                _csrftoken=self.state["cookies"]["csrftoken"],
                 media_id=media_id,
             ),
         )
@@ -801,7 +801,7 @@ class Protocol:
             data=generate_signature(
                 _uuid=self.state["uuid"],
                 _uid=self.state["username_id"],
-                _csrftoken=self.state["token"],
+                _csrftoken=self.state["cookies"]["csrftoken"],
                 media_id=media_id,
             ),
         )
@@ -836,7 +836,7 @@ class Protocol:
                 _uid=self.state["username_id"],
                 first_name=name,
                 phone_number=phone,
-                _csrftoken=self.state["token"],
+                _csrftoken=self.state["cookies"]["csrftoken"],
             ),
         )
         yield None
@@ -861,7 +861,7 @@ class Protocol:
                 _uuid=self.state["uuid"],
                 _uid=self.state["username_id"],
                 user_id=user_id,
-                _csrftoken=self.state["token"],
+                _csrftoken=self.state["cookies"]["csrftoken"],
             ),
         )
         yield None
@@ -878,7 +878,7 @@ class Protocol:
                 _uuid=self.state["uuid"],
                 _uid=self.state["username_id"],
                 user_id=user_id,
-                _csrftoken=self.state["token"],
+                _csrftoken=self.state["cookies"]["csrftoken"],
             ),
         )
         yield None
@@ -895,7 +895,7 @@ class Protocol:
                 _uuid=self.state["uuid"],
                 _uid=self.state["username_id"],
                 user_id=user_id,
-                _csrftoken=self.state["token"],
+                _csrftoken=self.state["cookies"]["csrftoken"],
             ),
         )
         yield None
@@ -912,7 +912,7 @@ class Protocol:
                 _uuid=self.state["uuid"],
                 _uid=self.state["username_id"],
                 user_id=user_id,
-                _csrftoken=self.state["token"],
+                _csrftoken=self.state["cookies"]["csrftoken"],
             ),
         )
         yield None
