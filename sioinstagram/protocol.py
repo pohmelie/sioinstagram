@@ -575,8 +575,8 @@ class Protocol:
 
         params = dict(
             rank_token=self.state["rank_token"],
-            latitude=latitude,
-            longitude=longitude,
+            latitude=str(latitude),
+            longitude=str(longitude),
         )
         if query is None:
 
