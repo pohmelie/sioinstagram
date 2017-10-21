@@ -1,7 +1,7 @@
 API_URL = "https://i.instagram.com/api/v1/"
 VERSION = "9.4.0"
 IG_SIG_KEY = "fc4720e1bf9d79463f62608c86fbddd374cc71bbfb98216b52e3f75333bd130d"
-USER_AGENT = str.format("Instagram {version} Android", version=VERSION)
+USER_AGENT = f"Instagram {VERSION} Android"
 LOGIN_EXPERIMENTS = "ig_android_reg_login_btn_active_state,ig_android_ci_opt_in_at_reg,ig_android_one_click_in_old_flow,ig_android_merge_fb_and_ci_friends_page,ig_android_non_fb_sso,ig_android_mandatory_full_name,ig_android_reg_enable_login_password_btn,ig_android_reg_phone_email_active_state,ig_android_analytics_data_loss,ig_fbns_blocked,ig_android_contact_point_triage,ig_android_reg_next_btn_active_state,ig_android_prefill_phone_number,ig_android_show_fb_social_context_in_nux,ig_android_one_tap_login_upsell,ig_fbns_push,ig_android_phoneid_sync_interval"
 SIG_KEY_VERSION = "4"
 X_IG_Capabilities = "3R4="

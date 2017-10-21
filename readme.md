@@ -27,47 +27,39 @@ PASSWORD = "password"
 
 
 def requests_example():
-
     api = sioinstagram.RequestsInstagramApi()
     response = api.login(USERNAME, PASSWORD)
     print(response)
 
 
 async def aiohttp_example():
-
     async with sioinstagram.AioHTTPInstagramApi() as api:
-
         response = await api.login(USERNAME, PASSWORD)
         print(response)
 
 
 async def aiorequests_example():
-
     api = sioinstagram.AioRequestsInstagramApi()
     response = await api.login(USERNAME, PASSWORD)
     print(response)
 
 
 if __name__ == "__main__":
-
     import time
 
     # requests
     requests_example()
-
     time.sleep(1)
 
     # aiohttp
     loop = asyncio.get_event_loop()
     loop.run_until_complete(aiohttp_example())
-
     time.sleep(1)
 
     # aiorequests
     import aiorequests
     import concurrent
     with concurrent.futures.ThreadPoolExecutor(max_workers=100) as executor:
-
         loop = asyncio.get_event_loop()
         loop.set_default_executor(executor)
         aiorequests.set_async_requests(loop=loop)
