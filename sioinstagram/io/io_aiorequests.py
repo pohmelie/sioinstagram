@@ -1,10 +1,11 @@
 import asyncio
 import functools
+import contextlib
 
 import aiorequests
 
-from ..protocol import Protocol, Response
-from ..exceptions import InstagramStatusCodeError
+from ..protocol import Protocol
+from ..exceptions import InstagramError
 
 
 __all__ = (
@@ -14,20 +15,16 @@ __all__ = (
 
 class AioRequestsInstagramApi:
 
-    def __init__(self, state=None, delay=5, proxy=None, loop=None, lock=None):
-        self.session = aiorequests.Session()
-        if proxy is not None:
-            self.session.proxies = dict(http=proxy, https=proxy)
-        self.proto = Protocol(state)
-        cookies = aiorequests.cookies.cookiejar_from_dict(self.proto.cookies)
-        self.session.cookies = cookies
+    def __init__(self, username, password, state=None, delay=5, proxy=None, loop=None, lock=None):
+        if proxy is None:
+            self.proxies = None
+        else:
+            self.proxies = dict(http=proxy, https=proxy)
+        self.proto = Protocol(username, password, state)
         self.delay = delay
         self.loop = loop or asyncio.get_event_loop()
         self.lock = lock or asyncio.Lock(loop=self.loop)
         self.last_request_time = 0
-
-    def close(self):
-        self.session.close()
 
     @property
     def state(self):
@@ -45,20 +42,19 @@ class AioRequestsInstagramApi:
     async def _run(self, generator):
         with (await self.lock):
             response = None
-            while True:
-                request = generator.send(response)
-                if request is None:
-                    break
-                now = self.loop.time()
-                timeout = max(0, self.delay - (now - self.last_request_time))
-                await asyncio.sleep(timeout, loop=self.loop)
-                self.last_request_time = self.loop.time()
-                response = await self.session.request(**request._asdict())
-                if response.status_code != aiorequests.codes.ok:
-                    raise InstagramStatusCodeError(response.status_code)
-                response = Response(
-                    cookies=self.session.cookies.get_dict(),
-                    json=response.json(),
-                )
-
+            with contextlib.suppress(StopIteration):
+                while True:
+                    request = generator.send(response)
+                    now = self.loop.time()
+                    timeout = max(0, self.delay - (now - self.last_request_time))
+                    await asyncio.sleep(timeout, loop=self.loop)
+                    self.last_request_time = self.loop.time()
+                    response = await aiorequests.request(**request._asdict())
+                    if not response.content:
+                        raise InstagramError(response)
+                    response = Protocol.Response(
+                        cookies=response.cookies.get_dict(),
+                        json=response.json(),
+                        status_code=response.status_code,
+                    )
         return response.json

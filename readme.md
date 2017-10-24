@@ -27,35 +27,32 @@ PASSWORD = "password"
 
 
 def requests_example():
-    api = sioinstagram.RequestsInstagramApi()
-    response = api.login(USERNAME, PASSWORD)
+    api = sioinstagram.RequestsInstagramApi(USERNAME, PASSWORD)
+    response = api.search_username(USERNAME)
     print(response)
 
 
 async def aiohttp_example():
     async with sioinstagram.AioHTTPInstagramApi() as api:
-        response = await api.login(USERNAME, PASSWORD)
+        response = await api.search_username(USERNAME)
         print(response)
 
 
 async def aiorequests_example():
     api = sioinstagram.AioRequestsInstagramApi()
-    response = await api.login(USERNAME, PASSWORD)
+    response = await api.search_username(USERNAME)
     print(response)
 
 
-if __name__ == "__main__":
+def main():
     import time
-
     # requests
     requests_example()
     time.sleep(1)
-
     # aiohttp
     loop = asyncio.get_event_loop()
     loop.run_until_complete(aiohttp_example())
     time.sleep(1)
-
     # aiorequests
     import aiorequests
     import concurrent
@@ -65,4 +62,7 @@ if __name__ == "__main__":
         aiorequests.set_async_requests(loop=loop)
         loop.run_until_complete(aiorequests_example())
 
+
+if __name__ == "__main__":
+    main()
 ```

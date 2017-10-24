@@ -1,12 +1,17 @@
 __all__ = (
-    "InstagramStatusCodeError",
+    "InstagramError",
+    "InstagramProtocolError",
 )
 
 
-class InstagramStatusCodeError(Exception):
+class InstagramError(Exception):
 
-    def __init__(self, status_code):
-        self.status_code = status_code
+    def __init__(self, response):
+        self.response = response
 
     def __repr__(self):
-        return f"InstagramStatusCodeError(status_code={self.status_code!r})"
+        return f"{self.__class__.__name__}(response={self.response!r})"
+
+
+class InstagramProtocolError(InstagramError):
+    pass
