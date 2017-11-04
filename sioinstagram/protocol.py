@@ -706,7 +706,7 @@ class Protocol:
 
     @update_cookies
     @with_relogin
-    def like(self, media_id):
+    def like(self, media_id, module_name="feed_timeline"):
         yield self._request(
             method="post",
             url=f"media/{media_id}/like/",
@@ -715,6 +715,8 @@ class Protocol:
                 _uid=self.state["username_id"],
                 _csrftoken=self.cookies["csrftoken"],
                 media_id=media_id,
+                radio_type="wifi-none",
+                module_name=module_name,
             ),
         )
 
